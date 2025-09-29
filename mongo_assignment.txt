@@ -1,0 +1,644 @@
+MongoDB shell version v4.2.3
+connecting to: mongodb://127.0.0.1:27017/?compressors=disabled&gssapiServiceName=mongodb
+Implicit session: session { "id" : UUID("7521243f-e98b-45f8-bd24-d0f9285ba32f") }
+MongoDB server version: 4.2.3
+Server has startup warnings:
+2025-09-29T11:08:56.790+0530 I  CONTROL  [initandlisten]
+2025-09-29T11:08:56.790+0530 I  CONTROL  [initandlisten] ** WARNING: Access control is not enabled for the database.
+2025-09-29T11:08:56.790+0530 I  CONTROL  [initandlisten] **          Read and write access to data and configuration is unrestricted.
+2025-09-29T11:08:56.791+0530 I  CONTROL  [initandlisten]
+---
+Enable MongoDB's free cloud-based monitoring service, which will then receive and display
+metrics about your deployment (disk utilization, CPU, operation statistics, etc).
+
+The monitoring data will be available on a MongoDB website with a unique URL accessible to you
+and anyone you share the URL with. MongoDB may use this information to make product
+improvements and to suggest MongoDB products and deployment options to you.
+
+To enable free monitoring, run the following command: db.enableFreeMonitoring()
+To permanently disable this reminder, run the following command: db.disableFreeMonitoring()
+---
+
+> use biz2x
+switched to db biz2x
+> db.student.find()
+{ "_id" : ObjectId("68da1d5570591ac32a572afc"), "name" : "Bhanu", "city" : "hathras", "dept" : "devops", "age" : 22 }
+> db.student.find().pretty()
+{
+        "_id" : ObjectId("68da1d5570591ac32a572afc"),
+        "name" : "Bhanu",
+        "city" : "hathras",
+        "dept" : "devops",
+        "age" : 22
+}
+> db.student.insertMany({"name":"pratap","city":"hathras","dept":"devops","age":22,},{"name":"Singh","city":"hathras","dept":"devops","age":22,})
+2025-09-29T11:21:48.387+0530 E  QUERY    [js] uncaught exception: TypeError: documents.map is not a function :
+DBCollection.prototype.insertMany@src/mongo/shell/crud_api.js:307:17
+@(shell):1:1
+> db.student.insertMany({"name":"pratap","city":"hathras","dept":"devops","age":22,},{"name":"Singh","city":"hathras","dept":"devops","age":22,})
+2025-09-29T11:22:36.859+0530 E  QUERY    [js] uncaught exception: TypeError: documents.map is not a function :
+DBCollection.prototype.insertMany@src/mongo/shell/crud_api.js:307:17
+@(shell):1:1
+> show collection
+2025-09-29T11:22:49.386+0530 E  QUERY    [js] uncaught exception: Error: don't know how to show [collection] :
+shellHelper.show@src/mongo/shell/utils.js:1139:11
+shellHelper@src/mongo/shell/utils.js:790:15
+@(shellhelp2):1:1
+> show collections
+student
+> db.student.insertMany([
+...   {"name":"pratap","city":"hathras","dept":"devops","age":22},
+...   {"name":"Singh","city":"hathras","dept":"devops","age":22},
+...   {"name":"Ravi","city":"delhi","dept":"devops","age":23},
+...   {"name":"Amit","city":"noida","dept":"devops","age":21},
+...   {"name":"Suresh","city":"gurgaon","dept":"devops","age":24}
+... ])
+{
+        "acknowledged" : true,
+        "insertedIds" : [
+                ObjectId("68da1f015b1cc17ba4e476a6"),
+                ObjectId("68da1f015b1cc17ba4e476a7"),
+                ObjectId("68da1f015b1cc17ba4e476a8"),
+                ObjectId("68da1f015b1cc17ba4e476a9"),
+                ObjectId("68da1f015b1cc17ba4e476aa")
+        ]
+}
+> db.student.find().pretty()
+{
+        "_id" : ObjectId("68da1d5570591ac32a572afc"),
+        "name" : "Bhanu",
+        "city" : "hathras",
+        "dept" : "devops",
+        "age" : 22
+}
+{
+        "_id" : ObjectId("68da1f015b1cc17ba4e476a6"),
+        "name" : "pratap",
+        "city" : "hathras",
+        "dept" : "devops",
+        "age" : 22
+}
+{
+        "_id" : ObjectId("68da1f015b1cc17ba4e476a7"),
+        "name" : "Singh",
+        "city" : "hathras",
+        "dept" : "devops",
+        "age" : 22
+}
+{
+        "_id" : ObjectId("68da1f015b1cc17ba4e476a8"),
+        "name" : "Ravi",
+        "city" : "delhi",
+        "dept" : "devops",
+        "age" : 23
+}
+{
+        "_id" : ObjectId("68da1f015b1cc17ba4e476a9"),
+        "name" : "Amit",
+        "city" : "noida",
+        "dept" : "devops",
+        "age" : 21
+}
+{
+        "_id" : ObjectId("68da1f015b1cc17ba4e476aa"),
+        "name" : "Suresh",
+        "city" : "gurgaon",
+        "dept" : "devops",
+        "age" : 24
+}
+> db.employees.insertMany([
+...   { "name": "Alice", "city": "New York", "dept": "HR", "age": 30 },
+...   { "name": "Bob", "city": "Chicago", "dept": "Finance", "age": 28 },
+...   { "name": "Charlie", "city": "San Francisco", "dept": "Engineering", "age": 35 },
+...   { "name": "Diana", "city": "Boston", "dept": "Marketing", "age": 32 },
+...   { "name": "Ethan", "city": "Seattle", "dept": "Sales", "age": 29 }
+... ])
+{
+        "acknowledged" : true,
+        "insertedIds" : [
+                ObjectId("68da1f895b1cc17ba4e476ab"),
+                ObjectId("68da1f895b1cc17ba4e476ac"),
+                ObjectId("68da1f895b1cc17ba4e476ad"),
+                ObjectId("68da1f895b1cc17ba4e476ae"),
+                ObjectId("68da1f895b1cc17ba4e476af")
+        ]
+}
+> show collections
+employees
+student
+> db.monuments.insertOne(
+...   {
+...     "name": "The Pyramids of Giza",
+...     "city": "Giza",
+...     "country": "Egypt",
+...     "gps": {
+...       "lat": 39.976480,
+...       "lng": 41.131302
+...     }
+...   }
+... )
+{
+        "acknowledged" : true,
+        "insertedId" : ObjectId("68da1fcd5b1cc17ba4e476b0")
+}
+>
+> ------------- Insert Many ---------------
+... db.monuments.insertMany([
+...   {"name": "The Valley of the Kings", "city": "Luxor", "country": "Egypt", "gps": { "lat": 25.746424, "lng": 32.605309 }},
+...   {"name": "Arc de Triomphe", "city": "Paris", "country": "France", "gps": { "lat": 48.873756, "lng": 2.294946 }},
+...   {"name": "The Eiffel Tower", "city": "Paris", "country": "France", "gps": { "lat": 48.858093, "lng": 2.294694 }},
+...   {"name": "Acropolis", "city": "Athens", "country": "Greece", "gps": { "lat": 37.970833, "lng": 23.726110 }},
+...   {"name": "The Great Wall of China", "city": "Huairou", "country": "China", "gps": { "lat": 40.431908, "lng": 116.570374 }},
+...   {"name": "The Statue of Liberty", "city": "New York", "country": "USA", "gps": { "lat": 40.689247, "lng": -74.044502 }}
+... ])
+2025-09-29T11:27:39.954+0530 E  QUERY    [js] uncaught exception: SyntaxError: expected expression, got '--' :
+@(shell):1:2
+> db.monuments.insertMany([
+...   {"name": "The Valley of the Kings", "city": "Luxor", "country": "Egypt", "gps": { "lat": 25.746424, "lng": 32.605309 }},
+...   {"name": "Arc de Triomphe", "city": "Paris", "country": "France", "gps": { "lat": 48.873756, "lng": 2.294946 }},
+...   {"name": "The Eiffel Tower", "city": "Paris", "country": "France", "gps": { "lat": 48.858093, "lng": 2.294694 }},
+...   {"name": "Acropolis", "city": "Athens", "country": "Greece", "gps": { "lat": 37.970833, "lng": 23.726110 }},
+...   {"name": "The Great Wall of China", "city": "Huairou", "country": "China", "gps": { "lat": 40.431908, "lng": 116.570374 }},
+...   {"name": "The Statue of Liberty", "city": "New York", "country": "USA", "gps": { "lat": 40.689247, "lng": -74.044502 }}
+... ])
+{
+        "acknowledged" : true,
+        "insertedIds" : [
+                ObjectId("68da1ff95b1cc17ba4e476b1"),
+                ObjectId("68da1ff95b1cc17ba4e476b2"),
+                ObjectId("68da1ff95b1cc17ba4e476b3"),
+                ObjectId("68da1ff95b1cc17ba4e476b4"),
+                ObjectId("68da1ff95b1cc17ba4e476b5"),
+                ObjectId("68da1ff95b1cc17ba4e476b6")
+        ]
+}
+> db.monuments.count();
+7
+> db.monuments.find().skip(2).limit(1).pretty();
+{
+        "_id" : ObjectId("68da1ff95b1cc17ba4e476b2"),
+        "name" : "Arc de Triomphe",
+        "city" : "Paris",
+        "country" : "France",
+        "gps" : {
+                "lat" : 48.873756,
+                "lng" : 2.294946
+        }
+}
+> // Insert 3 records using insertMany
+> db.food.insertMany([
+...   { name: "Lays", calories: 150, brand: "Haldiram", category: "snack", price: 20 },
+...   { name: "Mango Juice", calories: 100, brand: "Tropicana", category: "juices", price: 50 },
+...   { name: "Veg Thali", calories: 500, brand: "BTW", category: "meals", price: 150 }
+... ]);
+{
+        "acknowledged" : true,
+        "insertedIds" : [
+                ObjectId("68da27c65b1cc17ba4e476b7"),
+                ObjectId("68da27c65b1cc17ba4e476b8"),
+                ObjectId("68da27c65b1cc17ba4e476b9")
+        ]
+}
+>
+> // Insert 2 records using insertOne
+> db.food.insertOne({ name: "Orange Juice", calories: 110, brand: "Real", category: "juices", price: 45 });
+{
+        "acknowledged" : true,
+        "insertedId" : ObjectId("68da27c65b1cc17ba4e476ba")
+}
+> db.food.insertOne({ name: "Namkeen", calories: 200, brand: "Haldiram", category: "snack", price: 25 });
+{
+        "acknowledged" : true,
+        "insertedId" : ObjectId("68da27c65b1cc17ba4e476bb")
+}
+> // Insert 3 records using insertMany
+> db  { name: "Tandoori Nights", year: 1998, location: "Connaught Place", contact: "1234567890", email: "contact@tandoorinights.com", nos_of_days_open: 7, city:  { name: "Juice Junction", year: 2010, location: "Bandra", contact: "0987654321", email: "info@juicejunction.com", nos_of_days_open: 6, city: "Mumbai", cat  { name: "Snack Shack", year: 2015, location: "Hauz Khas", contact: "1122334455", email: "hello@snackshack.com", nos_of_days_open: 7, city: "Delhi", category: "snack", serving: "Buffet" }015, location: "Hauz Khas", contact: "1122334455", email: "hello@snackshack.com", nos_of_days_open: 7, city: "Delhi", ca
+... ]);
+{
+        "acknowledged" : true,
+        "insertedIds" : [
+                ObjectId("68da27ea5b1cc17ba4e476bc"),
+                ObjectId("68da27ea5b1cc17ba4e476bd"),
+                ObjectId("68da27ea5b1cc17ba4e476be")
+        ]
+}
+>
+> db.restaurant.insertOne({ name: "City Meals", year: 2005, location: "Andheri", contact: "5566778899", email: "contact@citymeals.com", nos_of_days_open: 5, city: "Mumbai", category: "meals", serving: "Dining" });5, location: "Andheri", contact: "5566778899", email: "contact@citymeals.com", nos_of_days_open: 5,
+{
+        "acknowledged" : true,
+        "insertedId" : ObjectId("68da27ea5b1cc17ba4e476bf")
+} db.restaurant.insertOne({ name: "Fresh Juices", year: 2018, location: "Saket", contact: "6677889900", email: "info@freshjuices.com", nos_of_days_open: 7, city: "Delhi", category: "juices", serving: "Takeaway" });18, location: "Saket", contact: "6677889900", email: "info@freshjuices.com", nos_of_days_open: 7,
+{
+        "acknowledged" : true,
+        "insertedId" : ObjectId("68da27ea5b1cc17ba4e476c0")
+}
+> db.food.find({ category: "juices" }).pretty();
+{
+        "_id" : ObjectId("68da27c65b1cc17ba4e476b8"),
+        "name" : "Mango Juice",
+        "calories" : 100,
+        "brand" : "Tropicana",
+        "category" : "juices",
+        "price" : 50
+}
+{
+        "_id" : ObjectId("68da27c65b1cc17ba4e476ba"),
+        "name" : "Orange Juice",
+        "calories" : 110,
+        "brand" : "Real",
+        "category" : "juices",
+        "price" : 45
+}
+> db.restaurant.find({ city: { $in: ["Delhi", "Mumbai"] } }).pretty();
+{
+        "_id" : ObjectId("68da27ea5b1cc17ba4e476bc"),
+        "name" : "Tandoori Nights",
+        "year" : 1998,
+        "location" : "Connaught Place",
+        "contact" : "1234567890",
+        "email" : "contact@tandoorinights.com",
+        "nos_of_days_open" : 7,
+        "city" : "Delhi",
+        "category" : "meals",
+        "serving" : "Dining"
+}
+{
+        "_id" : ObjectId("68da27ea5b1cc17ba4e476bd"),
+        "name" : "Juice Junction",
+        "year" : 2010,
+        "location" : "Bandra",
+        "contact" : "0987654321",
+        "email" : "info@juicejunction.com",
+        "nos_of_days_open" : 6,
+        "city" : "Mumbai",
+        "category" : "juices",
+        "serving" : "Takeaway"
+}
+{
+        "_id" : ObjectId("68da27ea5b1cc17ba4e476be"),
+        "name" : "Snack Shack",
+        "year" : 2015,
+        "location" : "Hauz Khas",
+        "contact" : "1122334455",
+        "email" : "hello@snackshack.com",
+        "nos_of_days_open" : 7,
+        "city" : "Delhi",
+        "category" : "snack",
+        "serving" : "Buffet"
+}
+{
+        "_id" : ObjectId("68da27ea5b1cc17ba4e476bf"),
+        "name" : "City Meals",
+        "year" : 2005,
+        "location" : "Andheri",
+        "contact" : "5566778899",
+        "email" : "contact@citymeals.com",
+        "nos_of_days_open" : 5,
+        "city" : "Mumbai",
+        "category" : "meals",
+        "serving" : "Dining"
+}
+{
+        "_id" : ObjectId("68da27ea5b1cc17ba4e476c0"),
+        "name" : "Fresh Juices",
+        "year" : 2018,
+        "location" : "Saket",
+        "contact" : "6677889900",
+        "email" : "info@freshjuices.com",
+        "nos_of_days_open" : 7,
+        "city" : "Delhi",
+        "category" : "juices",
+        "serving" : "Takeaway"
+}
+> db.food.updateMany(
+...   { category: "snack" },
+...   { $set: { price: 30 } }  // Set price to 30 (or any new value you want)
+... );
+{ "acknowledged" : true, "matchedCount" : 2, "modifiedCount" : 2 }
+> db.food.updateOne({category:"snack"},{$set :{price:20}});
+{ "acknowledged" : true, "matchedCount" : 1, "modifiedCount" : 1 }
+> db.restaurent.updateMany(   { city: "Delhi" },   { $set: { location: south } })
+2025-09-29T12:15:58.397+0530 E  QUERY    [js] uncaught exception: ReferenceError: south is not defined :
+@(shell):1:60
+> db.restaurent.updateMany(   { city: "Delhi" },   { $set: { location: "south" } });
+{ "acknowledged" : true, "matchedCount" : 0, "modifiedCount" : 0 }
+> db.restaurant.updateMany(
+...   { city: "Delhi" },
+...   { $set: { location: "New Delhi Location" } }  // Change to your desired location
+... );
+{ "acknowledged" : true, "matchedCount" : 3, "modifiedCount" : 3 }
+> // Delete food items with brand "Haldiram"
+> db.food.deleteMany({ brand: "Haldiram" });
+{ "acknowledged" : true, "deletedCount" : 2 }
+>
+> // Delete food items with category "juices"
+> db.food.deleteMany({ category: "juices" });
+{ "acknowledged" : true, "deletedCount" : 2 }
+----------------------------------------------
+
+> db.cities.insertMany([
+...     {"name": "Seoul", "country": "South Korea", "continent": "Asia", "population": 25.674 },
+...     {"name": "Mumbai", "country": "India", "continent": "Asia", "population": 19.980 },
+...     {"name": "Lagos", "country": "Nigeria", "continent": "Africa", "population": 13.463 },
+...     {"name": "Beijing", "country": "China", "continent": "Asia", "population": 19.618 },
+...     {"name": "Shanghai", "country": "China", "continent": "Asia", "population": 25.582 },
+...     {"name": "Osaka", "country": "Japan", "continent": "Asia", "population": 19.281 },
+...     {"name": "Cairo", "country": "Egypt", "continent": "Africa", "population": 20.076 },
+...     {"name": "Tokyo", "country": "Japan", "continent": "Asia", "population": 37.400 },
+...     {"name": "Karachi", "country": "Pakistan", "continent": "Asia", "population": 15.400 },
+...     {"name": "Dhaka", "country": "Bangladesh", "continent": "Asia", "population": 19.578 },
+...     {"name": "Rio de Janeiro", "country": "Brazil", "continent": "South America", "population": 13.293 },
+...     {"name": "São Paulo", "country": "Brazil", "continent": "South America", "population": 21.650 },
+...     {"name": "Mexico City", "country": "Mexico", "continent": "North America", "population": 21.581 },
+...     {"name": "Delhi", "country": "India", "continent": "Asia", "population": 28.514 },
+...     {"name": "Buenos Aires", "country": "Argentina", "continent": "South America", "population": 14.967 },
+...     {"name": "Kolkata", "country": "India", "continent": "Asia", "population": 14.681 },
+...     {"name": "New York", "country": "United States", "continent": "North America", "population": 18.819 },
+...     {"name": "Manila", "country": "Philippines", "continent": "Asia", "population": 13.482 },
+...     {"name": "Chongqing", "country": "China", "continent": "Asia", "population": 14.838 },
+...     {"name": "Istanbul", "country": "Turkey", "continent": "Europe", "population": 14.751 }
+... ])
+{
+        "acknowledged" : true,
+        "insertedIds" : [
+                ObjectId("68da34515b1cc17ba4e476c1"),
+                ObjectId("68da34515b1cc17ba4e476c2"),
+                ObjectId("68da34515b1cc17ba4e476c3"),
+                ObjectId("68da34515b1cc17ba4e476c4"),
+                ObjectId("68da34515b1cc17ba4e476c5"),
+                ObjectId("68da34515b1cc17ba4e476c6"),
+                ObjectId("68da34515b1cc17ba4e476c7"),
+                ObjectId("68da34515b1cc17ba4e476c8"),
+                ObjectId("68da34515b1cc17ba4e476c9"),
+                ObjectId("68da34515b1cc17ba4e476ca"),
+                ObjectId("68da34515b1cc17ba4e476cb"),
+                ObjectId("68da34515b1cc17ba4e476cc"),
+                ObjectId("68da34515b1cc17ba4e476cd"),
+                ObjectId("68da34515b1cc17ba4e476ce"),
+                ObjectId("68da34515b1cc17ba4e476cf"),
+                ObjectId("68da34515b1cc17ba4e476d0"),
+                ObjectId("68da34515b1cc17ba4e476d1"),
+                ObjectId("68da34515b1cc17ba4e476d2"),
+                ObjectId("68da34515b1cc17ba4e476d3"),
+                ObjectId("68da34515b1cc17ba4e476d4")
+        ]
+}
+> db.products.insertMany([
+...   {
+...     name: "Laptop Pro",
+...     category: "Electronics",
+...     price: 1200,
+...     stock: 50,
+...     ratings: [{ user: "U1", score: 5 }, { user: "U2", score: 4 }],
+...     supplier: { name: "TechSupplier", country: "USA" },
+...     tags: ["premium", "lightweight"],
+...     createdAt: ISODate("2024-08-15T10:00:00Z")
+...   },
+...   {
+...     name: "Smartphone X",
+...     category: "Electronics",
+...     price: 800,
+...     stock: 100,
+...     ratings: [{ user: "U3", score: 4 }, { user: "U4", score: 3 }],
+...     supplier: { name: "MobileWorld", country: "China" },
+...     tags: ["android", "fast"],
+...     createdAt: ISODate("2024-09-10T12:30:00Z")
+...   },
+...   {
+...     name: "Wireless Headphones",
+...     category: "Electronics",
+...     price: 150,
+...     stock: 200,
+...     ratings: [{ user: "U5", score: 4 }, { user: "U6", score: 5 }],
+...     supplier: { name: "SoundPro", country: "Germany" },
+...     tags: ["audio", "bluetooth"],
+...     createdAt: ISODate("2024-10-01T09:20:00Z")
+...   },
+...   {
+...     name: "Coffee Maker",
+...     category: "Home Appliances",
+...     price: 120,
+...     stock: 40,
+...     ratings: [{ user: "U7", score: 3 }, { user: "U8", score: 4 }],
+...     supplier: { name: "HomeTech", country: "Italy" },
+...     tags: ["kitchen", "coffee"],
+...     createdAt: ISODate("2024-07-25T14:10:00Z")
+...   },
+...   {
+...     name: "Refrigerator XL",
+...     category: "Home Appliances",
+...     price: 900,
+...     stock: 15,
+...     ratings: [{ user: "U9", score: 5 }, { user: "U10", score: 5 }],
+...     supplier: { name: "CoolingCorp", country: "USA" },
+...     tags: ["kitchen", "cooling"],
+...     createdAt: ISODate("2024-06-05T08:45:00Z")
+...   },
+...   {
+...     name: "Office Chair",
+...     category: "Furniture",
+...     price: 300,
+...     stock: 25,
+...     ratings: [{ user: "U11", score: 4 }, { user: "U12", score: 3 }],
+...     supplier: { name: "FurniCo", country: "India" },
+...     tags: ["ergonomic", "comfort"],
+...     createdAt: ISODate("2024-05-12T16:00:00Z")
+...   },
+...   {
+...     name: "Dining Table Set",
+...     category: "Furniture",
+...     price: 700,
+...     stock: 10,
+...     ratings: [{ user: "U13", score: 5 }, { user: "U14", score: 4 }],
+...     supplier: { name: "WoodArt", country: "India" },
+...     tags: ["wooden", "dining"],
+...     createdAt: ISODate("2024-08-02T11:30:00Z")
+...   },
+...   {
+...     name: "T-Shirt",
+...     category: "Clothing",
+...     price: 25,
+...     stock: 500,
+...     ratings: [{ user: "U15", score: 4 }, { user: "U16", score: 3 }],
+...     supplier: { name: "FashionHub", country: "Bangladesh" },
+...     tags: ["casual", "cotton"],
+...     createdAt: ISODate("2024-09-18T18:10:00Z")
+...   },
+...   {
+...     name: "Running Shoes",
+...     category: "Clothing",
+...     price: 120,
+...     stock: 150,
+...     ratings: [{ user: "U17", score: 5 }, { user: "U18", score: 4 }],
+...     supplier: { name: "Sporty", country: "Vietnam" },
+...     tags: ["sports", "lightweight"],
+...     createdAt: ISODate("2024-08-28T07:50:00Z")
+...   },
+...   {
+...     name: "Tablet S",
+...     category: "Electronics",
+...     price: 600,
+...     stock: 80,
+...     ratings: [{ user: "U19", score: 4 }, { user: "U20", score: 5 }],
+...     supplier: { name: "GizmoTech", country: "South Korea" },
+...     tags: ["tablet", "portable"],
+...     createdAt: ISODate("2024-09-05T13:25:00Z")
+...   }
+... ])
+{
+        "acknowledged" : true,
+        "insertedIds" : [
+                ObjectId("68da57695b1cc17ba4e476d5"),
+                ObjectId("68da57695b1cc17ba4e476d6"),
+                ObjectId("68da57695b1cc17ba4e476d7"),
+                ObjectId("68da57695b1cc17ba4e476d8"),
+                ObjectId("68da57695b1cc17ba4e476d9"),
+                ObjectId("68da57695b1cc17ba4e476da"),
+                ObjectId("68da57695b1cc17ba4e476db"),
+                ObjectId("68da57695b1cc17ba4e476dc"),
+                ObjectId("68da57695b1cc17ba4e476dd"),
+                ObjectId("68da57695b1cc17ba4e476de")
+        ]
+}
+> db.products.find({ price: { $gte: 1000 } });
+{ "_id" : ObjectId("68da57695b1cc17ba4e476d5"), "name" : "Laptop Pro", "category" : "Electronics", "price" : 1200, "stock" : 50, "ratings" : [ { "user" : "U1", "score" : 5 }, { "user" : "U2", "score" : 4 } ], "supplier" : { "name" : "TechSupplier", "country" : "USA" }, "tags" : [ "premium", "lightweight" ], "createdAt" : ISODate("2024-08-15T10:00:00Z") }
+> db.products.find({ price: { $gte: 1000 } }).pretty();
+{
+        "_id" : ObjectId("68da57695b1cc17ba4e476d5"),
+        "name" : "Laptop Pro",
+        "category" : "Electronics",
+        "price" : 1200,
+        "stock" : 50,
+        "ratings" : [
+                {
+                        "user" : "U1",
+                        "score" : 5
+                },
+                {
+                        "user" : "U2",
+                        "score" : 4
+                }
+        ],
+        "supplier" : {
+                "name" : "TechSupplier",
+                "country" : "USA"
+        },
+        "tags" : [
+                "premium",
+                "lightweight"
+        ],
+        "createdAt" : ISODate("2024-08-15T10:00:00Z")
+}
+> db.products.aggregate([
+...   { $group: { _id: "$category", totalProducts: { $sum: 1 } } }
+... ]);
+{ "_id" : "Electronics", "totalProducts" : 4 }
+{ "_id" : "Clothing", "totalProducts" : 2 }
+{ "_id" : "Furniture", "totalProducts" : 2 }
+{ "_id" : "Home Appliances", "totalProducts" : 2 }
+> db.products.aggregate([
+...   {
+...     $group: {
+...       _id: "$category",
+...       maxPrice: { $max: "$price" },
+...       minPrice: { $min: "$price" }
+...     }
+...   }
+... ]);
+{ "_id" : "Electronics", "maxPrice" : 1200, "minPrice" : 150 }
+{ "_id" : "Home Appliances", "maxPrice" : 900, "minPrice" : 120 }
+{ "_id" : "Clothing", "maxPrice" : 120, "minPrice" : 25 }
+{ "_id" : "Furniture", "maxPrice" : 700, "minPrice" : 300 }
+> db.products.find({}, { name: 1, price: 1, _id: 0 }).sort({ price: -1 }).limit(3);
+{ "name" : "Laptop Pro", "price" : 1200 }
+{ "name" : "Refrigerator XL", "price" : 900 }
+{ "name" : "Smartphone X", "price" : 800 }
+> db.products.aggregate([
+...   {
+...     $group: {
+...       _id: "$supplier.country",
+...       avgPrice: { $avg: "$price" }
+...     }
+...   }
+... ]);
+{ "_id" : "India", "avgPrice" : 500 }
+{ "_id" : "USA", "avgPrice" : 1050 }
+{ "_id" : "China", "avgPrice" : 800 }
+{ "_id" : "Bangladesh", "avgPrice" : 25 }
+{ "_id" : "Italy", "avgPrice" : 120 }
+{ "_id" : "Vietnam", "avgPrice" : 120 }
+{ "_id" : "South Korea", "avgPrice" : 600 }
+{ "_id" : "Germany", "avgPrice" : 150 }
+> db.products.countDocuments({ stock: { $lte: 10 } });
+1
+> db.products.aggregate([
+...   {
+...     $group: {
+...       _id: "$category",
+...       totalStockValue: {
+...         $sum: { $multiply: ["$price", "$stock"] }
+...       }
+...     }
+...   }
+... ]);
+{ "_id" : "Electronics", "totalStockValue" : 218000 }
+{ "_id" : "Clothing", "totalStockValue" : 30500 }
+{ "_id" : "Home Appliances", "totalStockValue" : 18300 }
+{ "_id" : "Furniture", "totalStockValue" : 14500 }
+> db.products.find().sort({ createdAt: -1 }).limit(5);
+{ "_id" : ObjectId("68da57695b1cc17ba4e476d7"), "name" : "Wireless Headphones", "category" : "Electronics", "price" : 150, "stock" : 200, "ratings" : [ { "user" : "U5", "score" : 4 }, { "user" : "U6", "score" : 5 } ], "supplier" : { "name" : "SoundPro", "country" : "Germany" }, "tags" : [ "audio", "bluetooth" ], "createdAt" : ISODate("2024-10-01T09:20:00Z") }
+{ "_id" : ObjectId("68da57695b1cc17ba4e476dc"), "name" : "T-Shirt", "category" : "Clothing", "price" : 25, "stock" : 500, "ratings" : [ { "user" : "U15", "score" : 4 }, { "user" : "U16", "score" : 3 } ], "supplier" : { "name" : "FashionHub", "country" : "Bangladesh" }, "tags" : [ "casual", "cotton" ], "createdAt" : ISODate("2024-09-18T18:10:00Z") }
+{ "_id" : ObjectId("68da57695b1cc17ba4e476d6"), "name" : "Smartphone X", "category" : "Electronics", "price" : 800, "stock" : 100, "ratings" : [ { "user" : "U3", "score" : 4 }, { "user" : "U4", "score" : 3 } ], "supplier" : { "name" : "MobileWorld", "country" : "China" }, "tags" : [ "android", "fast" ], "createdAt" : ISODate("2024-09-10T12:30:00Z") }
+{ "_id" : ObjectId("68da57695b1cc17ba4e476de"), "name" : "Tablet S", "category" : "Electronics", "price" : 600, "stock" : 80, "ratings" : [ { "user" : "U19", "score" : 4 }, { "user" : "U20", "score" : 5 } ], "supplier" : { "name" : "GizmoTech", "country" : "South Korea" }, "tags" : [ "tablet", "portable" ], "createdAt" : ISODate("2024-09-05T13:25:00Z") }
+{ "_id" : ObjectId("68da57695b1cc17ba4e476dd"), "name" : "Running Shoes", "category" : "Clothing", "price" : 120, "stock" : 150, "ratings" : [ { "user" : "U17", "score" : 5 }, { "user" : "U18", "score" : 4 } ], "supplier" : { "name" : "Sporty", "country" : "Vietnam" }, "tags" : [ "sports", "lightweight" ], "createdAt" : ISODate("2024-08-28T07:50:00Z") }
+> db.products.aggregate([
+...   {
+...     $group: { _id: "$category", count: { $sum: 1 } }
+...   },
+...   {
+...     $match: { count: { $gt: 5 } }
+...   }
+... ]);
+>
+> db.products.aggregate([   {     $group: { _id: "$category", count: { $sum: 1 } }   },   {     $match: { count: { $gt: 5 } }   } ]);
+> db.products.aggregate([   {     $group: { _id: "$category", count: { $sum: 1 } }   },   {     $match: { count: { $gt: 2 } }   } ]);
+{ "_id" : "Electronics", "count" : 4 }
+> db.products.aggregate([
+...   {
+...     $group: {
+...       _id: "$category",
+...       totalRevenue: { $sum: { $multiply: ["$price", "$stock"] } }
+...     }
+...   },
+...   { $sort: { totalRevenue: -1 } },
+...   { $limit: 2 }
+... ]);
+{ "_id" : "Electronics", "totalRevenue" : 218000 }
+{ "_id" : "Clothing", "totalRevenue" : 30500 }
+> db.products.aggregate([
+...   {
+...     $addFields: {
+...       avgRating: { $avg: "$ratings.score" }
+...     }
+...   },
+...   {
+...     $sort: { category: 1, avgRating: -1 }
+...   },
+...   {
+...     $group: {
+...       _id: "$category",
+...       topProduct: { $first: "$$ROOT" }
+...     }
+...   },
+...   {
+...     $replaceRoot: { newRoot: "$topProduct" }
+...   },
+...   {
+...     $project: { name: 1, category: 1, avgRating: 1, price: 1 }
+...   }
+... ]);
+{ "_id" : ObjectId("68da57695b1cc17ba4e476d5"), "name" : "Laptop Pro", "category" : "Electronics", "price" : 1200, "avgRating" : 4.5 }
+{ "_id" : ObjectId("68da57695b1cc17ba4e476dd"), "name" : "Running Shoes", "category" : "Clothing", "price" : 120, "avgRating" : 4.5 }
+{ "_id" : ObjectId("68da57695b1cc17ba4e476d9"), "name" : "Refrigerator XL", "category" : "Home Appliances", "price" : 900, "avgRating" : 5 }
+{ "_id" : ObjectId("68da57695b1cc17ba4e476db"), "name" : "Dining Table Set", "category" : "Furniture", "price" : 700, "avgRating" : 4.5 }
+(i-search)`':
